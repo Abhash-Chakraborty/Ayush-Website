@@ -43,8 +43,8 @@ export function HeroSection() {
         // GSAP Fade Out for smoother transition
         gsap.to(".hero-solid-cover", {
           opacity: 0,
-          duration: 1.5,
-          ease: "power2.inOut",
+          duration: 0.8,
+          ease: "power2.out",
           onComplete: () => {
             gsap.set(".hero-solid-cover", { pointerEvents: "none" })
           },
@@ -53,11 +53,11 @@ export function HeroSection() {
         // Reveal fade elements
         gsap.to(".hero-fade-elements", {
           opacity: 1,
-          duration: 1.5,
+          duration: 1,
           ease: "power2.out",
-          delay: 0.5,
+          delay: 0.2,
         })
-      }, 2000)
+      }, 1500)
     }
 
     startRoulette()
@@ -91,18 +91,19 @@ export function HeroSection() {
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top top",
-            end: "+=300%", // Scroll distance of 300vh
+            end: "+=200%", // Reduced from 400% back to 300%
             scrub: 1,
             pin: true,
             anticipatePin: 1,
             invalidateOnRefresh: true,
+            refreshPriority: 10, // Higher priority to calculate first
           },
         })
 
         // Scale the mask to zoom into the text
         tl.to(maskRef.current, {
           scale: 1500,
-          duration: 0.8, // Finish zoom at 80% of scroll to allow a moment of full video
+          duration: 0.85, // Finish zoom at 85% of scroll, leaving 15% for full video
           ease: "power2.in",
           transformOrigin: getOrigin(),
         })
@@ -113,7 +114,7 @@ export function HeroSection() {
           { opacity: 1 },
           {
             opacity: 0,
-            duration: 0.2,
+            duration: 0.15,
           },
           0
         )
@@ -137,7 +138,7 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section ref={containerRef} className="relative w-full h-screen bg-gray-900 overflow-hidden">
+    <section ref={containerRef} className="relative w-full h-screen bg-black overflow-hidden">
       <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
         {/* Layer 0: Fixed Video Background */}
         <div className="absolute inset-0 z-0">
@@ -149,7 +150,6 @@ export function HeroSection() {
             playsInline
             src="https://www.pexels.com/download/video/6620640/"
           />
-          <div className="absolute inset-0 opacity-40 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
         </div>
 
         {/* Layer 1: The Mask (Black BG + White Text) */}
@@ -167,7 +167,7 @@ export function HeroSection() {
           <h1 className="font-display text-[12vw] leading-[0.8] font-bold text-black tracking-tighter text-center whitespace-nowrap select-none -mt-2 md:-mt-6">
             <span
               className="text-transparent hover:text-red-600 transition-colors duration-500 cursor-default"
-              style={{ WebkitTextStroke: "1px white" }}
+              style={{ WebkitTextStroke: "2px white" }}
             >
               STORYTELLER
             </span>
@@ -175,8 +175,7 @@ export function HeroSection() {
         </div>
 
         {/* Layer 2: Loading Overlay (Solid Black + White/Outline Text) - Fades out after load */}
-        <div className="hero-solid-cover absolute inset-0 z-50 bg-zinc-900 flex flex-col items-center justify-center">
-          <div className="absolute inset-0 opacity-40 pointer-events-none"></div>
+        <div className="hero-solid-cover absolute inset-0 z-50 bg-black flex flex-col items-center justify-center">
           <h1
             className="text-[15vw] leading-[0.8] font-bold text-white tracking-tighter text-center whitespace-nowrap select-none transition-all duration-300 relative z-10"
             style={{ fontFamily: currentFont }}
@@ -185,7 +184,7 @@ export function HeroSection() {
           </h1>
           <h1
             className="text-[12vw] leading-[0.8] font-bold text-black tracking-tighter text-center whitespace-nowrap select-none -mt-2 md:-mt-6 transition-all duration-300 relative z-10"
-            style={{ fontFamily: currentFont, WebkitTextStroke: "1px white" }}
+            style={{ fontFamily: currentFont, WebkitTextStroke: "2px white" }}
           >
             STORYTELLER
           </h1>

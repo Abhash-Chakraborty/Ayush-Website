@@ -43,7 +43,7 @@ export function ScrollDial() {
             trigger: "body",
             start: "top top",
             end: "bottom bottom",
-            scrub: 1, // Smooth scrubbing
+            scrub: 0.5, // Slightly tighter scrub for more responsive feel
             onUpdate: (self) => {
               setPercentage(Math.round(self.progress * 100))
             },

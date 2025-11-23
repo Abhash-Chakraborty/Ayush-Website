@@ -58,6 +58,7 @@ export function HorizontalProjects() {
           // The scroll duration (height) is proportional to the horizontal width
           end: () => `+=${scrollDistance}`,
           invalidateOnRefresh: true,
+          refreshPriority: 5,
         },
       })
     }, componentRef)
@@ -66,7 +67,7 @@ export function HorizontalProjects() {
   }, [])
 
   return (
-    <section ref={componentRef} className="relative bg-black overflow-hidden">
+    <section ref={componentRef} className="relative bg-black overflow-hidden min-h-screen">
       <div
         ref={sliderRef}
         className="flex h-screen items-center w-fit px-20 gap-20 will-change-transform"

@@ -1,5 +1,6 @@
 import { motion } from "motion/react"
 import { useState, useEffect } from "react"
+import { Magnetic } from "./ui/magnetic"
 
 const BRAND_NAME = "AYUSH MANU"
 
@@ -39,19 +40,21 @@ export function Header() {
             <button
               key={item}
               type="button"
-              className="text-sm uppercase tracking-widest text-white/70 hover:text-white hover:text-red-500 transition-colors"
+              className="text-sm uppercase tracking-widest text-white/70 hover:text-red-500 transition-colors"
             >
               {item}
             </button>
           ))}
         </nav>
 
-        <button
-          type="button"
-          className="hidden md:block px-6 py-2 border border-white/20 rounded-full text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300"
-        >
-          Let's Talk
-        </button>
+        <Magnetic>
+          <button
+            type="button"
+            className="hidden md:block px-6 py-2 border border-white/20 rounded-full text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300"
+          >
+            Let's Talk
+          </button>
+        </Magnetic>
       </div>
     </motion.header>
   )

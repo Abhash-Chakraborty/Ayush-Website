@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import { Magnetic } from "./ui/magnetic"
 
 const longFormProjects = [
   {
@@ -115,12 +116,14 @@ export function LongVideoProjects() {
 
                 <p className="text-white/60 text-lg leading-relaxed mb-8">{project.description}</p>
 
-                <button
-                  type="button"
-                  className="text-sm uppercase tracking-widest border-b border-white/30 pb-1 hover:text-red-500 hover:border-red-500 transition-colors"
-                >
-                  Watch Video
-                </button>
+                <Magnetic>
+                  <button
+                    type="button"
+                    className="text-sm uppercase tracking-widest border-b border-white/30 pb-1 hover:text-red-500 hover:border-red-500 transition-colors"
+                  >
+                    Watch Video
+                  </button>
+                </Magnetic>
               </div>
             </motion.div>
           ))}

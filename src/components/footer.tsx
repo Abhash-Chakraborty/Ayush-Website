@@ -1,7 +1,39 @@
+import { useEffect, useRef } from "react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
+
 export function Footer() {
+  const footerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ".footer-content",
+        { y: 100, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: footerRef.current,
+            start: "top 90%",
+          },
+        }
+      )
+    }, footerRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <footer className="bg-black text-white py-20 border-t border-white/10">
-      <div className="container mx-auto px-6">
+    <footer
+      ref={footerRef}
+      className="bg-black text-white py-20 border-t border-white/10 overflow-hidden"
+    >
+      <div className="footer-content container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
           <div>
             <h2 className="font-display text-6xl md:text-8xl font-bold tracking-tighter mb-6">

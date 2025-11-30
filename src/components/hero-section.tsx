@@ -19,8 +19,20 @@ export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null)
   const maskRef = useRef<HTMLDivElement>(null)
   const targetRef = useRef<HTMLSpanElement>(null)
+  const notJustARef = useRef<HTMLParagraphElement>(null)
   const [currentFont, setCurrentFont] = useState("var(--font-display)")
-  const [isLoaded, setIsLoaded] = useState(false)
+
+  // Parallax Effect
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!notJustARef.current) return
+      const x = (e.clientX - window.innerWidth / 2) * 0.02
+      const y = (e.clientY - window.innerHeight / 2) * 0.02
+      gsap.to(notJustARef.current, { x, y, duration: 0.5, ease: "power1.out" })
+    }
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [])
 
   // Font Roulette Effect
   useEffect(() => {
@@ -34,29 +46,55 @@ export function HeroSection() {
         counter++
       }, 50) // Rapid change every 50ms
 
-      // Stop after 2 seconds
+      // Stop after 1.5 seconds
       timeout = setTimeout(() => {
         clearInterval(interval)
         setCurrentFont("var(--font-display)")
-        setIsLoaded(true)
 
-        // GSAP Fade Out for smoother transition
-        gsap.to(".hero-solid-cover", {
-          opacity: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          onComplete: () => {
-            gsap.set(".hero-solid-cover", { pointerEvents: "none" })
-          },
-        })
+        // Elastic Pop Effect & Transition
+        const tl = gsap.timeline()
 
-        // Reveal fade elements
-        gsap.to(".hero-fade-elements", {
-          opacity: 1,
-          duration: 1,
+        // 1. Pop up slightly
+        tl.to([".hero-element-title-1", ".hero-element-title-2", ".hero-element-subtitle"], {
+          scale: 1.1,
+          duration: 0.3,
           ease: "power2.out",
-          delay: 0.2,
+          stagger: 0.05,
         })
+          // 2. Snap back elastically
+          .to(
+            [".hero-element-title-1", ".hero-element-title-2", ".hero-element-subtitle"],
+            {
+              scale: 1,
+              duration: 1.5,
+              ease: "elastic.out(1, 0.3)",
+              stagger: 0.05,
+            },
+            "-=0.15"
+          )
+          // 3. Fade out the cover smoothly once the text has settled
+          .to(
+            ".hero-solid-cover",
+            {
+              opacity: 0,
+              duration: 1.5,
+              ease: "power2.inOut",
+              onComplete: () => {
+                gsap.set(".hero-solid-cover", { pointerEvents: "none" })
+              },
+            },
+            "-=0.5"
+          )
+          // 4. Reveal other elements
+          .to(
+            ".hero-fade-elements",
+            {
+              opacity: 1,
+              duration: 1,
+              ease: "power2.out",
+            },
+            "<"
+          )
       }, 1500)
     }
 
@@ -100,13 +138,28 @@ export function HeroSection() {
           },
         })
 
+        // Fade out the white overlay
+        tl.to(
+          ".hero-video-overlay",
+          {
+            opacity: 0,
+            duration: 0.5,
+            ease: "power1.out",
+          },
+          0
+        )
+
         // Scale the mask to zoom into the text
-        tl.to(maskRef.current, {
-          scale: 1500,
-          duration: 0.85, // Finish zoom at 85% of scroll, leaving 15% for full video
-          ease: "power2.in",
-          transformOrigin: getOrigin(),
-        })
+        tl.to(
+          maskRef.current,
+          {
+            scale: 1500,
+            duration: 0.85, // Finish zoom at 85% of scroll, leaving 15% for full video
+            ease: "power2.in",
+            transformOrigin: getOrigin(),
+          },
+          0
+        )
 
         // Fade out elements early
         tl.fromTo(
@@ -150,6 +203,7 @@ export function HeroSection() {
             playsInline
             src="https://www.pexels.com/download/video/6620640/"
           />
+          <div className="hero-video-overlay absolute inset-0 bg-white/50 pointer-events-none" />
         </div>
 
         {/* Layer 1: The Mask (Black BG + White Text) */}
@@ -158,36 +212,53 @@ export function HeroSection() {
           ref={maskRef}
           className="absolute inset-0 z-10 bg-black mix-blend-multiply flex flex-col items-center justify-center"
         >
-          {/* VISUAL - Solid White to reveal full video */}
-          <h1 className="font-display text-[15vw] leading-[0.8] font-bold text-white tracking-tighter text-center whitespace-nowrap select-none">
-            VISU<span ref={targetRef}>A</span>L
-          </h1>
-
-          {/* STORYTELLER - Stroke effect */}
-          <h1 className="font-display text-[12vw] leading-[0.8] font-bold text-black tracking-tighter text-center whitespace-nowrap select-none -mt-2 md:-mt-6">
-            <span
-              className="text-transparent hover:text-red-600 transition-colors duration-500 cursor-default"
-              style={{ WebkitTextStroke: "2px white" }}
-            >
-              STORYTELLER
-            </span>
-          </h1>
+          <div className="hero-content-wrapper relative flex flex-col items-center">
+            <div className="relative">
+              <p
+                ref={notJustARef}
+                className="hero-element-subtitle absolute -top-8 -left-4 md:-left-12 text-sm md:text-base font-display italic font-medium text-white/90 tracking-[0.2em] whitespace-nowrap"
+              >
+                ( NOT JUST A )
+              </p>
+              <h1 className="hero-element-title-1 font-display text-[15vw] leading-[0.8] font-bold text-white tracking-tighter text-center whitespace-nowrap select-none">
+                VID<span ref={targetRef}>E</span>O
+              </h1>
+            </div>
+            <h1 className="hero-element-title-2 font-display text-[15vw] leading-[0.8] font-bold text-black tracking-tighter text-center whitespace-nowrap select-none -mt-2 md:-mt-6">
+              <span
+                className="text-transparent hover:text-red-600 transition-colors duration-500 cursor-default"
+                style={{ WebkitTextStroke: "2px white" }}
+              >
+                EDITOR
+              </span>
+            </h1>
+          </div>
         </div>
 
         {/* Layer 2: Loading Overlay (Solid Black + White/Outline Text) - Fades out after load */}
         <div className="hero-solid-cover absolute inset-0 z-50 bg-black flex flex-col items-center justify-center">
-          <h1
-            className="text-[15vw] leading-[0.8] font-bold text-white tracking-tighter text-center whitespace-nowrap select-none transition-all duration-300 relative z-10"
-            style={{ fontFamily: currentFont }}
-          >
-            VISUAL
-          </h1>
-          <h1
-            className="text-[12vw] leading-[0.8] font-bold text-black tracking-tighter text-center whitespace-nowrap select-none -mt-2 md:-mt-6 transition-all duration-300 relative z-10"
-            style={{ fontFamily: currentFont, WebkitTextStroke: "2px white" }}
-          >
-            STORYTELLER
-          </h1>
+          <div className="hero-content-wrapper relative flex flex-col items-center">
+            <div className="relative">
+              <p
+                className="hero-element-subtitle absolute -top-8 -left-4 md:-left-12 text-sm md:text-base font-display italic font-medium text-white/90 tracking-[0.2em] whitespace-nowrap transition-all duration-300"
+                style={{ fontFamily: currentFont }}
+              >
+                ( NOT JUST A )
+              </p>
+              <h1
+                className="hero-element-title-1 text-[15vw] leading-[0.8] font-bold text-white tracking-tighter text-center whitespace-nowrap select-none transition-all duration-300"
+                style={{ fontFamily: currentFont }}
+              >
+                VIDEO
+              </h1>
+            </div>
+            <h1
+              className="hero-element-title-2 text-[15vw] leading-[0.8] font-bold text-black tracking-tighter text-center whitespace-nowrap select-none -mt-2 md:-mt-6 transition-all duration-300"
+              style={{ fontFamily: currentFont, WebkitTextStroke: "2px white" }}
+            >
+              EDITOR
+            </h1>
+          </div>
         </div>
 
         {/* Subtitle and Line - Fade out on scroll */}

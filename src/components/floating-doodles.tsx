@@ -1,32 +1,18 @@
 import { motion } from "motion/react"
-import {
-  Camera,
-  Video,
-  Film,
-  Clapperboard,
-  Sparkles,
-  Star,
-  Zap,
-  Award,
-  Target,
-  TrendingUp,
-} from "lucide-react"
+import { Camera, Video, Film } from "lucide-react"
 
-const doodleIcons = [
-  Camera,
-  Video,
-  Film,
-  Clapperboard,
-  Sparkles,
-  Star,
-  Zap,
-  Award,
-  Target,
-  TrendingUp,
-]
+interface ArtifactProps {
+  x: number
+  y: number
+  delay: number
+  rotation?: number
+  size?: number
+}
 
 // Film strip artifact
-const FilmStrip = ({ x, y, rotation, delay }: any) => (
+const FILM_STRIP_ITEMS = Array.from({ length: 8 }, (_, i) => i)
+
+const FilmStrip = ({ x, y, rotation = 0, delay }: ArtifactProps) => (
   <motion.div
     className="absolute"
     style={{ left: `${x}%`, top: `${y}%` }}
@@ -44,15 +30,18 @@ const FilmStrip = ({ x, y, rotation, delay }: any) => (
     }}
   >
     <div className="flex gap-1">
-      {[...Array(8)].map((_, i) => (
-        <div key={i} className="w-3 h-5 border border-red-500/30 bg-red-500/10"></div>
+      {FILM_STRIP_ITEMS.map((i) => (
+        <div
+          key={`film-strip-${i}`}
+          className="w-3 h-5 border border-red-500/30 bg-red-500/10"
+        ></div>
       ))}
     </div>
   </motion.div>
 )
 
 // Circle artifact
-const CircleArtifact = ({ x, y, size, delay }: any) => (
+const CircleArtifact = ({ x, y, size, delay }: ArtifactProps) => (
   <motion.div
     className="absolute rounded-full border-2 border-red-500/20"
     style={{
@@ -76,7 +65,7 @@ const CircleArtifact = ({ x, y, size, delay }: any) => (
 )
 
 // Plus sign
-const PlusSign = ({ x, y, delay }: any) => (
+const PlusSign = ({ x, y, delay }: ArtifactProps) => (
   <motion.div
     className="absolute text-red-500/20"
     style={{ left: `${x}%`, top: `${y}%` }}
@@ -97,19 +86,19 @@ const PlusSign = ({ x, y, delay }: any) => (
 
 export function FloatingDoodles() {
   const doodles = [
-    { Icon: Camera, x: 10, y: 15, delay: 0 },
-    { Icon: Film, x: 85, y: 25, delay: 0.5 },
-    { Icon: Video, x: 20, y: 70, delay: 1 },
-    { Icon: Camera, x: 90, y: 80, delay: 1.5 },
-    { Icon: Film, x: 50, y: 10, delay: 2 },
+    { Icon: Camera, x: 10, y: 15, delay: 0, id: "camera-1" },
+    { Icon: Film, x: 85, y: 25, delay: 0.5, id: "film-1" },
+    { Icon: Video, x: 20, y: 70, delay: 1, id: "video-1" },
+    { Icon: Camera, x: 90, y: 80, delay: 1.5, id: "camera-2" },
+    { Icon: Film, x: 50, y: 10, delay: 2, id: "film-2" },
   ]
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
       {/* Animated icons */}
-      {doodles.map((doodle, index) => (
+      {doodles.map((doodle) => (
         <motion.div
-          key={index}
+          key={doodle.id}
           className="absolute opacity-20"
           style={{
             left: `${doodle.x}%`,

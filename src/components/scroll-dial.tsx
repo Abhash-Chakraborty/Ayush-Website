@@ -87,7 +87,7 @@ export function ScrollDial() {
                 const isCardinal = i % 15 === 0
                 return (
                   <line
-                    key={`tick-${i}`}
+                    key={`tick-angle-${angle}`}
                     x1="50"
                     y1="4"
                     x2="50"

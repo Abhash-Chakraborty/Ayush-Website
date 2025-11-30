@@ -72,7 +72,7 @@ export function CaseStudies() {
               </motion.button>
 
               {/* Video Player */}
-              <div className="flex-1 bg-neutral-900 rounded-[2rem] overflow-hidden shadow-2xl relative ring-1 ring-white/10">
+              <div className="flex-1 bg-neutral-900 rounded-4xl overflow-hidden shadow-2xl relative ring-1 ring-white/10">
                 <div className="aspect-video relative">
                   <AnimatePresence initial={false} mode="wait" custom={direction}>
                     <motion.video

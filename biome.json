@@ -1,4 +1,7 @@
 {
+  "files": {
+    "includes": ["src/**", "vite.config.ts", "package.json", "biome.json"]
+  },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",

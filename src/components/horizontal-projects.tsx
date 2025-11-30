@@ -74,16 +74,16 @@ export function HorizontalProjects() {
     >
       <div
         ref={sliderRef}
-        className="flex h-screen items-center w-fit px-20 gap-20 will-change-transform"
+        className="flex h-screen items-center w-fit px-4 md:px-20 gap-6 md:gap-20 will-change-transform"
       >
         {/* Intro Card */}
-        <div className="h-[70vh] w-[40vw] shrink-0 flex flex-col justify-center">
-          <h2 className="font-display text-8xl font-bold text-white mb-8">
+        <div className="h-[60vh] md:h-[70vh] w-[85vw] md:w-[40vw] shrink-0 flex flex-col justify-center">
+          <h2 className="font-display text-5xl md:text-8xl font-bold text-white mb-4 md:mb-8">
             SELECTED
             <br />
             <span className="text-red-600">WORKS</span>
           </h2>
-          <p className="text-white/60 text-xl max-w-md">
+          <p className="text-white/60 text-base md:text-xl max-w-md">
             A curated collection of projects that define my visual style and storytelling approach.
           </p>
         </div>
@@ -92,7 +92,7 @@ export function HorizontalProjects() {
         {projects.map((project) => (
           <div
             key={project.id}
-            className="group relative h-[70vh] w-[50vw] shrink-0 overflow-hidden bg-neutral-900"
+            className="group relative h-[60vh] md:h-[70vh] w-[85vw] md:w-[50vw] shrink-0 overflow-hidden bg-neutral-900"
           >
             <img
               src={project.image}
@@ -101,14 +101,14 @@ export function HorizontalProjects() {
             />
             <div className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent" />
 
-            <div className="absolute bottom-0 left-0 p-10 w-full">
+            <div className="absolute bottom-0 left-0 p-6 md:p-10 w-full">
               <div className="flex items-center gap-4 mb-4">
                 <span className="h-px w-10 bg-red-600"></span>
                 <span className="text-xs font-bold tracking-widest uppercase text-red-500">
                   {project.category}
                 </span>
               </div>
-              <h3 className="font-display text-6xl font-bold text-white group-hover:text-red-500 transition-colors">
+              <h3 className="font-display text-3xl md:text-6xl font-bold text-white group-hover:text-red-500 transition-colors">
                 {project.title}
               </h3>
             </div>

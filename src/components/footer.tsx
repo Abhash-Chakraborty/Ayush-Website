@@ -35,22 +35,22 @@ export function Footer() {
       className="bg-black text-white py-20 border-t border-white/10 overflow-hidden"
     >
       <div className="footer-content container mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
-          <div>
-            <h2 className="font-display text-6xl md:text-8xl font-bold tracking-tighter mb-6">
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-10 md:gap-12 text-center md:text-left">
+          <div className="flex flex-col items-center md:items-start">
+            <h2 className="font-display text-6xl md:text-8xl font-bold tracking-tighter mb-6 leading-[0.9]">
               LET'S CREATE
               <br />
               <span className="text-red-600">TOGETHER</span>
             </h2>
             <a
               href="mailto:ayushhmanu.works@gmail.com"
-              className="text-xl md:text-2xl text-white/60 hover:text-white transition-colors border-b border-white/20 pb-1"
+              className="text-lg md:text-2xl text-white/60 hover:text-white transition-colors border-b border-white/20 pb-1 hover:border-red-500"
             >
               ayushhmanu.works@gmail.com
             </a>
           </div>
 
-          <div className="flex flex-col gap-4 text-right">
+          <div className="flex flex-row md:flex-col gap-4 md:gap-4 items-center md:items-end flex-wrap justify-center">
             {[
               { name: "Instagram", url: "https://www.instagram.com/ayushhmanu/" },
               { name: "YouTube", url: "https://www.youtube.com/@ayushhmanu" },
@@ -61,7 +61,7 @@ export function Footer() {
                 href={social.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm uppercase tracking-widest text-white/40 hover:text-red-500 transition-colors"
+                className="text-xs md:text-sm uppercase tracking-[0.2em] text-white/40 hover:text-red-500 transition-colors border border-white/10 md:border-0 px-6 py-3 md:p-0 rounded-full md:rounded-none bg-white/5 md:bg-transparent hover:bg-white/10"
               >
                 {social.name}
               </a>
@@ -69,7 +69,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-20 pt-8 border-t border-white/10 flex justify-between items-center text-xs text-white/20 uppercase tracking-widest">
+        <div className="mt-16 md:mt-20 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] md:text-xs text-white/20 uppercase tracking-[0.2em]">
           <p>© 2025 AYUSH MANU</p>
           <p>ALL RIGHTS RESERVED</p>
         </div>

@@ -1,5 +1,10 @@
 import { motion } from "motion/react"
 import { Magnetic } from "./ui/magnetic"
+import { useRef, useLayoutEffect } from "react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
 
 const longFormProjects = [
   {
@@ -36,27 +41,67 @@ const shortFormProjects = [
     title: "NIKE COMMERCIAL",
     category: "AD",
     views: "1.2M",
-    image: "https://images.unsplash.com/photo-1552346154-21d32810aba3?w=400&h=700&fit=crop",
+    videoUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
   },
   {
     id: 2,
     title: "TRAVEL REEL",
     category: "LIFESTYLE",
     views: "850K",
-    image: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?w=400&h=700&fit=crop",
+    videoUrl:
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
   },
   {
     id: 3,
     title: "FITNESS MOTIVATION",
     category: "SPORTS",
     views: "2.5M",
-    image: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=700&fit=crop",
+    videoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
   },
 ]
 
 export function LongVideoProjects() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const shortCardsRef = useRef<(HTMLDivElement | null)[]>([])
+
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      ScrollTrigger.matchMedia({
+        // Mobile Animation - Full screen cards sliding over each other
+        "(max-width: 767px)": () => {
+          shortCardsRef.current.forEach((card, index) => {
+            if (!card) return
+            const nextCard = shortCardsRef.current[index + 1]
+
+            if (nextCard) {
+              gsap.to(card, {
+                scale: 0.85,
+                opacity: 0.3,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: nextCard,
+                  start: "top bottom",
+                  end: "top top",
+                  scrub: 0.5,
+                },
+              })
+            }
+          })
+        },
+        // Desktop - No animation
+        "(min-width: 768px)": () => {
+          shortCardsRef.current.forEach((card) => {
+            if (card) gsap.set(card, { clearProps: "all" })
+          })
+        },
+      })
+    }, containerRef)
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section className="pt-0 pb-32 bg-black text-white relative z-10">
+    <section className="pt-0 pb-32 bg-black text-white relative z-10" ref={containerRef}>
       <div className="container mx-auto px-6">
         {/* Long Form Section */}
         <div className="mb-20 pt-20">
@@ -130,8 +175,8 @@ export function LongVideoProjects() {
         </div>
 
         {/* Short Form Section */}
-        <div className="mb-20">
-          <h2 className="font-display text-6xl md:text-8xl font-bold tracking-tighter mb-6 text-right">
+        <div className="mb-10 md:mb-20">
+          <h2 className="font-display text-5xl md:text-8xl font-bold tracking-tighter mb-6 text-right">
             SHORT FORM
             <br />
             <span className="text-red-600">CONTENT</span>
@@ -139,44 +184,39 @@ export function LongVideoProjects() {
           <div className="h-1 w-20 bg-red-600 ml-auto"></div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="md:grid md:grid-cols-3 md:gap-8">
           {shortFormProjects.map((project, index) => (
-            <motion.div
+            <div
               key={project.id}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative cursor-pointer"
+              ref={(el) => {
+                shortCardsRef.current[index] = el
+              }}
+              className="sticky top-0 md:static h-dvh md:h-auto flex items-center justify-center md:block"
             >
-              <div className="relative overflow-hidden aspect-9/16 bg-neutral-900 border border-white/10">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-80 group-hover:opacity-100"
+              <div className="relative overflow-hidden w-full h-full md:aspect-9/16 bg-neutral-900 md:border md:border-white/10 md:shadow-2xl">
+                <video
+                  src={project.videoUrl}
+                  className="w-full h-full object-cover md:opacity-80 md:group-hover:opacity-100 md:transition-transform md:duration-700 md:group-hover:scale-110"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
                 />
 
                 {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-linear-to-t from-black/90 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
-
-                {/* Play Icon */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-16 h-16 rounded-full bg-red-600/90 flex items-center justify-center backdrop-blur-sm">
-                    <div className="w-0 h-0 border-t-8 border-t-transparent border-l-14 border-l-white border-b-8 border-b-transparent ml-1"></div>
-                  </div>
-                </div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent" />
 
                 {/* Content Overlay */}
-                <div className="absolute bottom-0 left-0 w-full p-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold tracking-widest uppercase text-red-500">
+                <div className="absolute bottom-0 left-0 w-full p-8 md:p-6">
+                  <div className="flex items-center justify-between mb-3 md:mb-2">
+                    <span className="text-sm md:text-xs font-bold tracking-widest uppercase text-red-500">
                       {project.category}
                     </span>
-                    <span className="text-xs font-mono text-white/60 flex items-center gap-1">
+                    <span className="text-sm md:text-xs font-mono text-white/60 flex items-center gap-1">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
+                        width="14"
+                        height="14"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
@@ -192,12 +232,12 @@ export function LongVideoProjects() {
                       {project.views}
                     </span>
                   </div>
-                  <h3 className="font-display text-2xl font-bold text-white mb-1">
+                  <h3 className="font-display text-4xl md:text-2xl font-bold text-white mb-1">
                     {project.title}
                   </h3>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

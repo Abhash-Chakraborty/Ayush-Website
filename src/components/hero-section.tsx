@@ -188,7 +188,7 @@ export function HeroSection() {
             muted
             loop
             playsInline
-            src="https://www.pexels.com/download/video/6620640/"
+            src="/bg-video.mp4"
           />
           <div className="hero-video-overlay absolute inset-0 bg-white/50 pointer-events-none" />
         </div>

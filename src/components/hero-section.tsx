@@ -254,8 +254,8 @@ export function HeroSection() {
         </div>
 
         {/* Floating Elements */}
-        <div className="hero-fade-elements opacity-0 absolute bottom-7 left-4 md:left-10 z-30">
-          <p className="font-display text-[10px] md:text-xs text-white/40 -rotate-90 origin-bottom-left tracking-widest mix-blend-difference">
+        <div className="hero-fade-elements opacity-0 absolute bottom-7 left-7 md:left-10 z-30">
+          <p className="font-display text-[12px] md:text-base text-white/40 -rotate-90 origin-bottom-left tracking-widest mix-blend-difference">
             EST. 2024
           </p>
         </div>

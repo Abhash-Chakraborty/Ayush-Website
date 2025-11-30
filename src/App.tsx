@@ -10,7 +10,7 @@ import { ScrollDial } from "./components/scroll-dial"
 export default function App() {
   return (
     <SmoothScroll>
-      <div className="relative min-h-screen bg-black text-white overflow-x-hidden font-sans">
+      <div className="relative min-h-dvh bg-black text-white overflow-x-hidden font-sans">
         <Header />
         <ScrollDial />
         <main>

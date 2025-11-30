@@ -239,7 +239,7 @@ export function ClientsSection() {
     return () => ctx.revert()
   }, [activeProfiles])
 
-  const wheelSize = isMobile ? "340vw" : "110vw"
+  const wheelSize = isMobile ? "340dvw" : "110dvw"
   const avatarSize = isMobile ? 60 : 100
 
   const wheelStyle = {

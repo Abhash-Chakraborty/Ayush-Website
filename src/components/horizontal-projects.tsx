@@ -67,17 +67,13 @@ export function HorizontalProjects() {
   }, [])
 
   return (
-    <section
-      id="work"
-      ref={componentRef}
-      className="relative bg-black overflow-hidden min-h-screen"
-    >
+    <section id="work" ref={componentRef} className="relative bg-black overflow-hidden min-h-dvh">
       <div
         ref={sliderRef}
-        className="flex h-screen items-center w-fit px-4 md:px-20 gap-6 md:gap-20 will-change-transform"
+        className="flex h-dvh items-center w-fit px-4 md:px-20 gap-6 md:gap-20 will-change-transform"
       >
         {/* Intro Card */}
-        <div className="h-[60vh] md:h-[70vh] w-[85vw] md:w-[40vw] shrink-0 flex flex-col justify-center">
+        <div className="h-[60dvh] md:h-[70dvh] w-[85vw] md:w-[40vw] shrink-0 flex flex-col justify-center">
           <h2 className="font-display text-5xl md:text-8xl font-bold text-white mb-4 md:mb-8">
             SELECTED
             <br />
@@ -92,7 +88,7 @@ export function HorizontalProjects() {
         {projects.map((project) => (
           <div
             key={project.id}
-            className="group relative h-[60vh] md:h-[70vh] w-[85vw] md:w-[50vw] shrink-0 overflow-hidden bg-neutral-900"
+            className="group relative h-[60dvh] md:h-[70dvh] w-[85vw] md:w-[50vw] shrink-0 overflow-hidden bg-neutral-900"
           >
             <img
               src={project.image}

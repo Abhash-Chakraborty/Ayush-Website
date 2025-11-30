@@ -126,7 +126,7 @@ interface ProcessCardProps {
 const ProcessCard = ({ step, variant }: ProcessCardProps) => {
   const sizing =
     variant === "desktop"
-      ? "h-[65vh] min-h-[420px] w-[60vw] min-w-[520px] max-w-[780px]"
+      ? "h-[65dvh] min-h-[420px] w-[60vw] min-w-[520px] max-w-[780px]"
       : "h-auto w-[80vw] min-w-[260px] max-w-[360px]"
   const snapClass = variant === "mobile" ? "snap-center" : ""
 
@@ -315,7 +315,7 @@ export function ProcessTimeline() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen overflow-hidden bg-[#020202] text-white"
+      className="relative min-h-dvh overflow-hidden bg-[#020202] text-white"
     >
       <div className="absolute inset-0 bg-linear-to-b from-black via-black/90 to-[#050505]" />
       <div
@@ -334,7 +334,7 @@ export function ProcessTimeline() {
         }}
       />
 
-      <div className="relative z-10 flex h-screen flex-col">
+      <div className="relative z-10 flex h-dvh flex-col">
         <header className="mx-auto w-full max-w-screen-2xl px-6 pt-16 pb-12 md:px-12 lg:px-24">
           <p className="text-xs uppercase tracking-[0.5em] text-red-400">Process</p>
           <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-end md:gap-12">
